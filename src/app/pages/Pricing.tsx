@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import * as Tabs from "@radix-ui/react-tabs";
@@ -90,6 +91,7 @@ function PricingTabTrigger({ value, label, icon: Icon }: any) {
 function ComputePricing() {
     const [osType, setOsType] = useState<'linux' | 'windows'>('linux');
     const [vmSeries, setVmSeries] = useState<'cpu' | 'gp' | 'mem'>('cpu');
+    const [billingCycle, setBillingCycle] = useState<'monthly' | 'hourly'>('monthly');
 
     // Data from beta.cloudpe.com/pricing
     const vmData = {
@@ -100,12 +102,12 @@ function ComputePricing() {
             color: "text-orange-400",
             description: "High clock speed for compute-intensive tasks",
             flavors: [
-                { flavor: "a.cpu1.4g", cpu: "2", ram: "4 GB", monthlyBase: "₹931", monthlyTotal: "₹1,117", hourlyBase: "₹1.28", hourlyTotal: "₹1.53" },
-                { flavor: "a.cpu1.8g", cpu: "4", ram: "8 GB", monthlyBase: "₹1,862", monthlyTotal: "₹2,048", hourlyBase: "₹2.55", hourlyTotal: "₹2.80" },
-                { flavor: "a.cpu1.16g", cpu: "8", ram: "16 GB", monthlyBase: "₹3,724", monthlyTotal: "₹3,910", hourlyBase: "₹5.10", hourlyTotal: "₹5.35" },
-                { flavor: "a.cpu1.32g", cpu: "16", ram: "32 GB", monthlyBase: "₹7,448", monthlyTotal: "₹7,634", hourlyBase: "₹10.20", hourlyTotal: "₹10.45" },
-                { flavor: "a.cpu1.64g", cpu: "32", ram: "64 GB", monthlyBase: "₹14,896", monthlyTotal: "₹15,082", hourlyBase: "₹20.41", hourlyTotal: "₹20.66" },
-                { flavor: "a.cpu1.128g", cpu: "64", ram: "128 GB", monthlyBase: "₹32,090", monthlyTotal: "₹32,276", hourlyBase: "₹43.96", hourlyTotal: "₹44.21" },
+                { flavor: "a.cpu1.4g", cpu: "2", ram: "4 GB", linux: { monthly: "₹1,117", hourly: "₹1.53" }, windows: { monthly: "₹1,917", hourly: "₹2.63" } },
+                { flavor: "a.cpu1.8g", cpu: "4", ram: "8 GB", linux: { monthly: "₹2,048", hourly: "₹2.80" }, windows: { monthly: "₹3,248", hourly: "₹4.45" } },
+                { flavor: "a.cpu1.16g", cpu: "8", ram: "16 GB", linux: { monthly: "₹3,910", hourly: "₹5.35" }, windows: { monthly: "₹5,710", hourly: "₹7.82" } },
+                { flavor: "a.cpu1.32g", cpu: "16", ram: "32 GB", linux: { monthly: "₹7,634", hourly: "₹10.45" }, windows: { monthly: "₹10,434", hourly: "₹14.29" } },
+                { flavor: "a.cpu1.64g", cpu: "32", ram: "64 GB", linux: { monthly: "₹15,082", hourly: "₹20.66" }, windows: { monthly: "₹19,882", hourly: "₹27.24" } },
+                { flavor: "a.cpu1.128g", cpu: "64", ram: "128 GB", linux: { monthly: "₹32,276", hourly: "₹44.21" }, windows: { monthly: "₹57,876", hourly: "₹79.28" } },
             ]
         },
         gp: {
@@ -115,12 +117,12 @@ function ComputePricing() {
             color: "text-blue-400",
             description: "Balanced vCPU and RAM for most workloads",
             flavors: [
-                { flavor: "a.gp1.4g", cpu: "1", ram: "4 GB", monthlyBase: "₹1,330", monthlyTotal: "₹1,516", hourlyBase: "₹1.82", hourlyTotal: "₹2.07" },
-                { flavor: "a.gp1.8g", cpu: "2", ram: "8 GB", monthlyBase: "₹1,582", monthlyTotal: "₹1,768", hourlyBase: "₹2.17", hourlyTotal: "₹2.42" },
-                { flavor: "a.gp1.16g", cpu: "4", ram: "16 GB", monthlyBase: "₹2,980", monthlyTotal: "₹3,166", hourlyBase: "₹4.08", hourlyTotal: "₹4.33" },
-                { flavor: "a.gp1.32g", cpu: "8", ram: "32 GB", monthlyBase: "₹5,880", monthlyTotal: "₹6,066", hourlyBase: "₹8.05", hourlyTotal: "₹8.30" },
-                { flavor: "a.gp1.64g", cpu: "16", ram: "64 GB", monthlyBase: "₹11,180", monthlyTotal: "₹11,366", hourlyBase: "₹15.32", hourlyTotal: "₹15.57" },
-                { flavor: "a.gp1.128g", cpu: "32", ram: "128 GB", monthlyBase: "₹21,683", monthlyTotal: "₹21,869", hourlyBase: "₹29.70", hourlyTotal: "₹29.95" },
+                { flavor: "a.gp1.4g", cpu: "1", ram: "4 GB", linux: { monthly: "₹1,330", hourly: "₹1.82" }, windows: { monthly: "₹1,516", hourly: "₹2.08" } },
+                { flavor: "a.gp1.8g", cpu: "2", ram: "8 GB", linux: { monthly: "₹1,582", hourly: "₹2.17" }, windows: { monthly: "₹1,768", hourly: "₹2.42" } },
+                { flavor: "a.gp1.16g", cpu: "4", ram: "16 GB", linux: { monthly: "₹2,980", hourly: "₹4.08" }, windows: { monthly: "₹3,166", hourly: "₹4.34" } },
+                { flavor: "a.gp1.32g", cpu: "8", ram: "32 GB", linux: { monthly: "₹5,880", hourly: "₹8.05" }, windows: { monthly: "₹8,466", hourly: "₹11.60" } },
+                { flavor: "a.gp1.64g", cpu: "16", ram: "64 GB", linux: { monthly: "₹11,180", hourly: "₹15.32" }, windows: { monthly: "₹15,766", hourly: "₹21.60" } },
+                { flavor: "a.gp1.128g", cpu: "32", ram: "128 GB", linux: { monthly: "₹21,683", hourly: "₹29.70" }, windows: { monthly: "₹30,269", hourly: "₹41.46" } },
             ]
         },
         mem: {
@@ -130,13 +132,13 @@ function ComputePricing() {
             color: "text-green-400",
             description: "High RAM for databases and caching",
             flavors: [
-                { flavor: "a.mem1.8g", cpu: "1", ram: "8 GB", monthlyBase: "₹1,180", monthlyTotal: "₹1,366", hourlyBase: "₹1.62", hourlyTotal: "₹1.87" },
-                { flavor: "a.mem1.16g", cpu: "2", ram: "16 GB", monthlyBase: "₹2,360", monthlyTotal: "₹2,546", hourlyBase: "₹3.23", hourlyTotal: "₹3.48" },
-                { flavor: "a.mem1.32g", cpu: "4", ram: "32 GB", monthlyBase: "₹4,720", monthlyTotal: "₹4,906", hourlyBase: "₹6.47", hourlyTotal: "₹6.72" },
-                { flavor: "a.mem1.64g", cpu: "8", ram: "64 GB", monthlyBase: "₹9,440", monthlyTotal: "₹9,626", hourlyBase: "₹12.93", hourlyTotal: "₹13.18" },
-                { flavor: "a.mem1.128g", cpu: "16", ram: "128 GB", monthlyBase: "₹18,880", monthlyTotal: "₹19,066", hourlyBase: "₹25.86", hourlyTotal: "₹26.11" },
-                { flavor: "a.mem1.256g", cpu: "32", ram: "256 GB", monthlyBase: "₹37,760", monthlyTotal: "₹37,946", hourlyBase: "₹51.73", hourlyTotal: "₹51.98" },
-                { flavor: "a.mem1.512g", cpu: "64", ram: "512 GB", monthlyBase: "₹79,652", monthlyTotal: "₹79,838", hourlyBase: "₹109.11", hourlyTotal: "₹109.36" },
+                { flavor: "a.mem1.8g", cpu: "1", ram: "8 GB", linux: { monthly: "₹1,366", hourly: "₹1.87" }, windows: { monthly: "₹1,766", hourly: "₹2.42" } },
+                { flavor: "a.mem1.16g", cpu: "2", ram: "16 GB", linux: { monthly: "₹2,546", hourly: "₹3.48" }, windows: { monthly: "₹2,946", hourly: "₹4.04" } },
+                { flavor: "a.mem1.32g", cpu: "4", ram: "32 GB", linux: { monthly: "₹4,906", hourly: "₹6.72" }, windows: { monthly: "₹5,306", hourly: "₹7.27" } },
+                { flavor: "a.mem1.64g", cpu: "8", ram: "64 GB", linux: { monthly: "₹9,626", hourly: "₹13.18" }, windows: { monthly: "₹9,826", hourly: "₹13.46" } },
+                { flavor: "a.mem1.128g", cpu: "16", ram: "128 GB", linux: { monthly: "₹19,066", hourly: "₹26.11" }, windows: { monthly: "₹18,866", hourly: "₹25.84" } },
+                { flavor: "a.mem1.256g", cpu: "32", ram: "256 GB", linux: { monthly: "₹37,946", hourly: "₹51.98" }, windows: { monthly: "₹38,166", hourly: "₹52.28" } },
+                { flavor: "a.mem1.512g", cpu: "64", ram: "512 GB", linux: { monthly: "₹79,838", hourly: "₹109.36" }, windows: { monthly: "₹80,186", hourly: "₹109.84" } },
             ]
         }
     };
@@ -146,24 +148,51 @@ function ComputePricing() {
 
     return (
         <div className="space-y-6">
-            {/* OS Toggle */}
-            <div className="flex justify-center gap-2 mb-6">
-                <button
-                    onClick={() => setOsType('linux')}
-                    className={`px-6 py-2 rounded-full font-medium transition-all ${osType === 'linux' ? 'bg-[#8154EF] text-white' : 'bg-white/5 text-white/60 hover:text-white'}`}
-                >
-                    Linux VMs
-                </button>
-                <button
-                    onClick={() => setOsType('windows')}
-                    className={`px-6 py-2 rounded-full font-medium transition-all ${osType === 'windows' ? 'bg-[#8154EF] text-white' : 'bg-white/5 text-white/60 hover:text-white'}`}
-                >
-                    Windows VMs
-                </button>
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
+                {/* OS Toggle */}
+                <div className="bg-white/5 p-1 rounded-full flex">
+                    <button
+                        onClick={() => setOsType('linux')}
+                        className={`px-6 py-2 rounded-full font-medium transition-all ${osType === 'linux' ? 'bg-[#8154EF] text-white shadow-lg shadow-purple-500/20' : 'text-white/60 hover:text-white'}`}
+                    >
+                        Linux
+                    </button>
+                    <button
+                        onClick={() => setOsType('windows')}
+                        className={`px-6 py-2 rounded-full font-medium transition-all ${osType === 'windows' ? 'bg-[#8154EF] text-white shadow-lg shadow-purple-500/20' : 'text-white/60 hover:text-white'}`}
+                    >
+                        Windows
+                    </button>
+                </div>
+
+                {/* Billing Cycle Toggle */}
+                <div className="bg-white/5 p-1 rounded-full flex relative">
+                    <button
+                        onClick={() => setBillingCycle('monthly')}
+                        className={`px-6 py-2 rounded-full font-medium transition-all relative z-10 ${billingCycle === 'monthly' ? 'text-white' : 'text-white/60 hover:text-white'}`}
+                    >
+                        Monthly
+                    </button>
+                    <button
+                        onClick={() => setBillingCycle('hourly')}
+                        className={`px-6 py-2 rounded-full font-medium transition-all relative z-10 ${billingCycle === 'hourly' ? 'text-white' : 'text-white/60 hover:text-white'}`}
+                    >
+                        Hourly
+                    </button>
+                    <motion.div
+                        className="absolute inset-y-1 rounded-full bg-white/10"
+                        layoutId="billingCycle"
+                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                        style={{
+                            width: "50%",
+                            left: billingCycle === 'monthly' ? "4px" : "calc(50% - 4px)",
+                        }}
+                    />
+                </div>
             </div>
 
             {/* VM Series Tabs */}
-            <div className="flex justify-center gap-4 mb-8">
+            <div className="flex flex-wrap justify-center gap-4 mb-8">
                 {(['cpu', 'gp', 'mem'] as const).map((series) => {
                     const data = vmData[series];
                     const SeriesIcon = data.icon;
@@ -172,7 +201,7 @@ function ComputePricing() {
                             key={series}
                             onClick={() => setVmSeries(series)}
                             className={`flex items-center gap-2 px-6 py-3 rounded-xl border transition-all ${vmSeries === series
-                                    ? `border-${data.color.replace('text-', '')} bg-white/5`
+                                    ? `border-${data.color.replace('text-', '')} bg-white/5 shadow-lg shadow-${data.color.replace('text-', '')}/10`
                                     : 'border-white/10 hover:border-white/30'
                                 }`}
                         >
@@ -203,29 +232,29 @@ function ComputePricing() {
                                 <th className="p-4 font-medium">Flavor</th>
                                 <th className="p-4 font-medium">vCPU</th>
                                 <th className="p-4 font-medium">RAM</th>
-                                <th className="p-4 font-medium">Monthly (Base)</th>
-                                <th className="p-4 font-medium">Monthly (Total)</th>
-                                <th className="p-4 font-medium">Hourly (Base)</th>
-                                <th className="p-4 font-medium">Hourly (Total)</th>
+                                <th className="p-4 font-medium text-right">
+                                    Price ({billingCycle === 'monthly' ? 'Monthly' : 'Hourly'})
+                                </th>
                             </tr>
                         </thead>
                         <tbody className="text-white/80 font-[Sansation]">
-                            {currentData.flavors.map((row) => (
-                                <tr key={row.flavor} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                                    <td className={`p-4 font-mono ${currentData.color}`}>{row.flavor}</td>
-                                    <td className="p-4">{row.cpu} vCPU</td>
-                                    <td className="p-4">{row.ram}</td>
-                                    <td className="p-4 text-white/50">{row.monthlyBase}</td>
-                                    <td className="p-4 font-bold">{row.monthlyTotal}</td>
-                                    <td className="p-4 text-white/50">{row.hourlyBase}</td>
-                                    <td className="p-4 font-bold">{row.hourlyTotal}</td>
-                                </tr>
-                            ))}
+                            {currentData.flavors.map((row) => {
+                                const priceData = row[osType];
+                                const price = billingCycle === 'monthly' ? priceData.monthly : priceData.hourly;
+                                return (
+                                    <tr key={row.flavor} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                                        <td className={`p-4 font-mono ${currentData.color}`}>{row.flavor}</td>
+                                        <td className="p-4">{row.cpu} vCPU</td>
+                                        <td className="p-4">{row.ram}</td>
+                                        <td className="p-4 font-bold text-right text-lg">{price}<span className="text-xs text-white/40 font-normal">/{billingCycle === 'monthly' ? 'mo' : 'hr'}</span></td>
+                                    </tr>
+                                )
+                            })}
                         </tbody>
                     </table>
                 </div>
                 <div className="p-4 bg-white/[0.02] text-center text-sm text-white/50">
-                    * Total price includes 30GB Block Storage allocation (₹186/month or ₹0.25/hour)
+                    * Total price includes {osType === 'windows' ? 'Windows License & ' : ''}30GB Block Storage allocation
                 </div>
             </div>
 
